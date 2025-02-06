@@ -1,10 +1,10 @@
-import { AxiosResponse } from 'axios';
+// import { AxiosResponse } from 'axios';
 import { AuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { cookies } from 'next/headers';
+// import CredentialsProvider from 'next-auth/providers/credentials';
+// import { cookies } from 'next/headers';
 
-import { ILogInResponse } from '@/lib/types';
-import axiosInstance from '@/lib/axios';
+// import { ILogInResponse } from '@/lib/types';
+// import axiosInstance from '@/lib/axios';
 
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
