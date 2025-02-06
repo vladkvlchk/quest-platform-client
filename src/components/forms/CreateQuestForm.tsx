@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -32,7 +32,7 @@ export const CreateQuestForm = () => {
     resolver: zodResolver(CreateQuestFormShema),
   });
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+//   const router = useRouter();
 
   const onSubmit: SubmitHandler<TCreateQuestFormData> = async (data) => {
     console.log("submit");
