@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CreateQuestFormShema = z.object({
+export const AboutQuestFormShema = z.object({
   name: z
     .string()
     .trim()
@@ -25,4 +25,4 @@ export const CreateQuestFormShema = z.object({
   difficulty: z.string(),
 });
 
-export type TCreateQuestFormData = z.infer<typeof CreateQuestFormShema>;
+export type TAboutQuestFormData = z.infer<typeof AboutQuestFormShema>;

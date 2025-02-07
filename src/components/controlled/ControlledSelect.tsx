@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 import { Controller } from "react-hook-form";
 
@@ -15,7 +17,7 @@ interface Props {
   control: any;
   label: string;
   placeholder: string;
-  items: { value: string; name: string }[];
+  items: { value: string | number; name: string }[];
 }
 
 export const ControlledSelect: FC<Props> = ({
@@ -38,7 +40,7 @@ export const ControlledSelect: FC<Props> = ({
             </SelectTrigger>
             <SelectContent>
               {items.map((item, index) => (
-                <SelectItem key={index} value={item.value}>
+                <SelectItem key={index} value={String(item.value)}>
                   {item.name}
                 </SelectItem>
               ))}

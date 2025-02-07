@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-// import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -14,9 +13,9 @@ import {
   CardFooter,
 } from "@/components";
 import {
-  CreateQuestFormShema,
-  TCreateQuestFormData,
-} from "@/lib/validation/CreateQuestValidation";
+  AboutQuestFormShema,
+  TAboutQuestFormData,
+} from "@/lib/validation/AboutQuestValidation";
 
 const defaultValues = {
   name: "",
@@ -26,15 +25,14 @@ const defaultValues = {
   difficalty: "normal",
 };
 
-export const CreateQuestForm = () => {
-  const { handleSubmit, control } = useForm<TCreateQuestFormData>({
+export const AboutQuestForm = () => {
+  const { handleSubmit, control } = useForm<TAboutQuestFormData>({
     defaultValues,
-    resolver: zodResolver(CreateQuestFormShema),
+    resolver: zodResolver(AboutQuestFormShema),
   });
   const [isLoading, setIsLoading] = useState(false);
-//   const router = useRouter();
 
-  const onSubmit: SubmitHandler<TCreateQuestFormData> = async (data) => {
+  const onSubmit: SubmitHandler<TAboutQuestFormData> = async (data) => {
     console.log("submit");
     setIsLoading(true);
     try {

@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 import { Controller } from "react-hook-form";
 
@@ -7,13 +9,18 @@ interface Props {
   name: string;
   control: any;
   label: string;
-  
+
   required?: boolean;
   disabled?: boolean;
   placeholder: string;
 }
 
-export const ControlledTextarea: FC<Props> = ({ name, control, label, ...other }) => {
+export const ControlledTextarea: FC<Props> = ({
+  name,
+  control,
+  label,
+  ...other
+}) => {
   return (
     <Controller
       name={name}

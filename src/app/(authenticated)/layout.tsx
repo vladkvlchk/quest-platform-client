@@ -7,7 +7,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex w-screen">
         <AppSidebar />
         <div className="flex-1">
-          <SidebarTrigger />
+          <div className="flex">
+            <SidebarTrigger />
+          </div>
           {children}
         </div>
       </main>
