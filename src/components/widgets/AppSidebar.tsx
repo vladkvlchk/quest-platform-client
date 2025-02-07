@@ -16,7 +16,7 @@ import {
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar className="flex-1">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
