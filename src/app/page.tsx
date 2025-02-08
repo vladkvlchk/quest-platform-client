@@ -15,6 +15,9 @@ export default function Home() {
       <Button className="inline">
         <Link href="/auth">Auth Page <ChevronRight className="" /></Link>
       </Button>
+      <Button className="flex w-max">
+        <Link href="/profile">Profile Page <ChevronRight className="" /></Link>
+      </Button>
     </div>
   );
 }
