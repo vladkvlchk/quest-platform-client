@@ -1,11 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
-import { Button, Input, Label } from "../ui";
+import { Button } from "../ui";
 import {
   Card,
   CardContent,
@@ -14,38 +11,35 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui";
+import {
+  LoginFormShema,
+  TLoginFormData,
+} from "@/lib/validation/LoginValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useLogin } from "@/hooks";
+import { ControlledInput } from "../controlled";
 
-type LoginFormData = {
-  email: string;
-  password: string;
+const defaultValues = {
+  email: "",
+  password: "",
 };
 
 export function LoginForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>();
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const { handleSubmit, control } = useForm<TLoginFormData>({
+    resolver: zodResolver(LoginFormShema),
+    defaultValues,
+  });
 
-  const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true);
+  const { isPending, mutateAsync } = useLogin();
+
+  const onSubmit = async (data: TLoginFormData) => {
     try {
-      const result = await signIn("credentials", {
-        redirect: false,
+      await mutateAsync({
         email: data.email,
         password: data.password,
       });
-      if (result?.error) {
-        console.error(result.error);
-      } else {
-        router.push("/dashboard");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+    } catch (error: any) {
+      console.error("Something was wrong!");
     }
   };
 
@@ -59,32 +53,24 @@ export function LoginForm() {
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              {...register("email", { required: "Email is required" })}
-            />
-            {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              {...register("password", { required: "Password is required" })}
-            />
-            {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
-            )}
-          </div>
+          <ControlledInput
+            name="email"
+            control={control}
+            label="Email"
+            placeholder="morty@mail.com"
+          />
+
+          <ControlledInput
+            name="password"
+            control={control}
+            label="Password"
+            placeholder="******"
+            type="password"
+          />
         </CardContent>
         <CardFooter>
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Login"}
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isPending ? "Logging in..." : "Login"}
           </Button>
         </CardFooter>
       </form>
