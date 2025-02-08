@@ -4,18 +4,12 @@ import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  Button,
-  ControlledSelect,
-  ControlledTextarea,
-  CardContent,
-  CardFooter,
-  ControlledQuizOptions,
-} from "@/components";
+import { Button, CardContent, CardFooter } from "../ui";
 import {
   QuizLevelFormShema,
   TQuizLevelFormData,
 } from "@/lib/validation/QuizLevelValidation";
+import { ControlledQuizOptions, ControlledSelect, ControlledTextarea } from "../controlled";
 
 const defaultValues = {
   question: "",

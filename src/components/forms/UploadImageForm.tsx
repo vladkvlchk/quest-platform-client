@@ -3,7 +3,8 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
+import { Button } from "@/components/ui";
 
 interface UploadImageFormProps {
   onImagesChange: (files: File[]) => void;

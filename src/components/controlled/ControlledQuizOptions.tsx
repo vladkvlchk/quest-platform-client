@@ -4,7 +4,7 @@ import { ChangeEvent, FC } from "react";
 import { Controller } from "react-hook-form";
 import { PlusIcon } from "lucide-react";
 
-import { Label, Input, Button } from "@/components";
+import { Label, Input, Button } from "../ui";
 import { IQuizOption } from "@/lib/types/QuizLevel";
 
 interface Props {

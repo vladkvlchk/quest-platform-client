@@ -10,8 +10,8 @@ import {
   CardHeader,
   CardTitle,
   Separator,
-  UploadImageForm,
-} from "@/components";
+} from "../ui";
+import { UploadImageForm } from "./UploadImageForm";
 
 type Props = {
   type: "about" | "quiz" | "input";

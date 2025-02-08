@@ -1,8 +1,9 @@
 "use client";
 
-import { IQuizOption } from "@/lib/types";
 import { FC, useState } from "react";
-import { Button, CardContent } from "@/components";
+
+import { IQuizOption } from "@/lib/types";
+import { Button, CardContent } from "../ui";
 
 interface IQuizProps {
   question: string;

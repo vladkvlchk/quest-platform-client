@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import {
-  AboutQuest,
   Button,
   Card,
   CardContent,
@@ -11,11 +10,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  QuizLevel,
   Separator,
-  InputLevel,
-} from "@/components";
+} from "../ui";
 import { IAboutLevel, TLevel } from "@/lib/types";
+import { QuizLevel } from "./QuizLevel";
+import { AboutQuest } from "./AboutQuest";
+import { InputLevel } from "./InputLevel";
 
 const mockQuest = {
   name: "Development Knowledge Quest",
