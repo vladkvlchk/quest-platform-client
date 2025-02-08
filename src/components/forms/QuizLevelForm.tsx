@@ -20,7 +20,7 @@ import {
 const defaultValues = {
   question: "",
   options: [{ id: String(Date.now()), text: "" }],
-  correctOption: "",
+  correctOptionId: "",
 };
 
 export const QuizLevelForm = () => {
@@ -51,7 +51,7 @@ export const QuizLevelForm = () => {
   const selectCorrectAnswerItems = Array.isArray(onlyFilledOptions)
     ? [...onlyFilledOptions].map((option) => ({
         value: option.text,
-        name: option.text,
+        name: option.id,
       }))
     : [];
 
@@ -72,7 +72,7 @@ export const QuizLevelForm = () => {
         />
 
         <ControlledSelect
-          name="correctAnswer"
+          name="correctOptionId"
           control={control}
           label="Correct Answer"
           placeholder="Select correct answer"

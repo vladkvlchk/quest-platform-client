@@ -15,7 +15,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Level,
+  LevelForm,
 } from "@/components";
 
 type TLevel = {
@@ -51,7 +51,7 @@ export default function CreateQuest() {
         </CardDescription>
       </CardHeader>
       <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-4">
-        <Level type={currentLevel.type} name={currentLevel.name} />
+        <LevelForm type={currentLevel.type} name={currentLevel.name} />
         <Card className="md:-order-1">
           <CardHeader>
             <CardDescription>Level Navigation</CardDescription>

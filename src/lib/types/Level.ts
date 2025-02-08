@@ -1,3 +1,3 @@
-export interface ILevel {
-  id: number;
-}
+import { IAboutLevel, IInputLevel, IQuizLevel } from "@/lib/types";
+
+export type TLevel = IAboutLevel | IQuizLevel | IInputLevel;

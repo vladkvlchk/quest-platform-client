@@ -18,7 +18,7 @@ type Props = {
   name: string;
 };
 
-export const Level: FC<Props> = ({ type, name }) => {
+export const LevelForm: FC<Props> = ({ type, name }) => {
   return (
     <Card className="col-span-3 h-min">
       <CardHeader className="flex">
