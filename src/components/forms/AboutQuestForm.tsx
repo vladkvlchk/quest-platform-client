@@ -5,17 +5,15 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
-  Button,
-  ControlledSelect,
-  ControlledTextarea,
-  ControlledInput,
-  CardContent,
-  CardFooter,
-} from "@/components";
-import {
   AboutQuestFormShema,
   TAboutQuestFormData,
 } from "@/lib/validation/AboutQuestValidation";
+import { Button, CardContent, CardFooter } from "../ui";
+import {
+  ControlledInput,
+  ControlledSelect,
+  ControlledTextarea,
+} from "../controlled";
 
 const defaultValues = {
   name: "",

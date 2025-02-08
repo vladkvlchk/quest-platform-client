@@ -10,7 +10,7 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@/components";
+} from "../ui";
 
 interface Props {
   name: string;

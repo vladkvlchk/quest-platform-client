@@ -7,19 +7,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   Button,
-  ControlledSelect,
-  ControlledTextarea,
-  ControlledInput,
   CardContent,
   CardFooter,
   Card,
   CardTitle,
   CardHeader,
-} from "@/components";
+} from "../ui";
 import {
   AboutQuestFormShema,
   TAboutQuestFormData,
 } from "@/lib/validation/AboutQuestValidation";
+import { ControlledInput, ControlledSelect, ControlledTextarea } from "../controlled";
 
 const defaultValues = {
   name: "",

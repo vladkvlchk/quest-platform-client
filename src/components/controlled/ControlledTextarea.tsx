@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { Controller } from "react-hook-form";
 
-import { Label, Textarea } from "@/components";
+import { Label, Textarea } from "../ui";
 
 interface Props {
   name: string;

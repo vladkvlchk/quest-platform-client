@@ -13,7 +13,7 @@ export const QuizLevelFormShema = z.object({
       text: z.string(),
     })
   ),
-  correctAnswer: z.string(),
+  correctOptionId: z.string(),
 });
 
 export type TQuizLevelFormData = z.infer<typeof QuizLevelFormShema>;

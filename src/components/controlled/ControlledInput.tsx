@@ -2,8 +2,9 @@
 
 import { FC } from "react";
 import { Controller } from "react-hook-form";
+import { Input, Label } from "../ui";
 
-import { Label, Input } from "@/components";
+
 
 interface Props {
   name: string;
