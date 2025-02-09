@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronRight, CirclePlusIcon, CompassIcon, User2 } from "lucide-react";
 import Link from "next/link";
 
@@ -13,8 +15,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useSession } from "next-auth/react";
 
 export function AppSidebar() {
+  const { data: session } = useSession();
+
+  if (!session) return <>loading...</>;
   return (
     <Sidebar className="flex-1">
       <SidebarHeader>
@@ -55,7 +61,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <Link href="/profile">
               <SidebarMenuButton>
-                <User2 /> Username
+                <User2 /> {session.user.name || "Unknown name"}
                 <ChevronRight className="ml-auto" />
               </SidebarMenuButton>
             </Link>

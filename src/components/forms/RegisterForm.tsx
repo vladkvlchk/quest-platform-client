@@ -1,12 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -15,44 +12,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  SignUpFormShema,
+  TSignUpFormData,
+} from "@/lib/validation/SignUpValidation";
+import { ControlledInput } from "../controlled";
+import { useSignUp } from "@/hooks";
 
-type RegisterFormData = {
-  name: string;
-  email: string;
-  password: string;
+const defaultValues = {
+  name: "",
+  email: "",
+  password: "",
 };
 
 export function RegisterForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterFormData>();
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const { handleSubmit, reset, control } = useForm<TSignUpFormData>({
+    resolver: zodResolver(SignUpFormShema),
+    defaultValues,
+  });
 
-  const onSubmit = async (data: RegisterFormData) => {
-    setIsLoading(true);
+  const { mutateAsync, isPending } = useSignUp();
+
+  const onSubmit = async (data: TSignUpFormData) => {
     try {
-      // Here you would typically make an API call to register the user
-      // For this example, we'll just simulate a successful registration
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // After successful registration, log the user in
-      const result = await signIn("credentials", {
-        redirect: false,
+      await mutateAsync({
+        name: data.name,
         email: data.email,
         password: data.password,
       });
-      if (result?.error) {
-        console.error(result.error);
-      } else {
-        router.push("/dashboard");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+      reset();
+    } catch (error: any) {
+      console.log(error);
     }
   };
 
@@ -66,42 +56,31 @@ export function RegisterForm() {
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              {...register("name", { required: "Name is required" })}
-            />
-            {errors.name && (
-              <p className="text-sm text-red-500">{errors.name.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              {...register("email", { required: "Email is required" })}
-            />
-            {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              {...register("password", { required: "Password is required" })}
-            />
-            {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
-            )}
-          </div>
+          <ControlledInput
+            name="name"
+            control={control}
+            label="Name"
+            placeholder="Morty"
+          />
+
+          <ControlledInput
+            name="email"
+            control={control}
+            label="Email"
+            placeholder="morty@mail.com"
+          />
+
+          <ControlledInput
+            name="password"
+            control={control}
+            label="Password"
+            placeholder="*******"
+            type="password"
+          />
         </CardContent>
         <CardFooter>
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Registering..." : "Register"}
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isPending ? "Registering..." : "Register"}
           </Button>
         </CardFooter>
       </form>
