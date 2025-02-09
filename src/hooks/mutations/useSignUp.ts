@@ -4,18 +4,18 @@ import { useMutation } from "@tanstack/react-query";
 import { SignInResponse, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { ILoginRequest, ILogInResponse, IReactQueryError } from "@/lib/types";
+import { ISignUpRequest, ISignUpResponse, IReactQueryError } from "@/lib/types";
 import axiosInstance from "@/lib/axios";
-import { useToast } from "../use-toast";
+import { useToast } from "@/hooks/use-toast";
 
-export const useLogin = () => {
+export const useSignUp = () => {
   const router = useRouter();
   const { toast } = useToast();
 
-  return useMutation<ILogInResponse, IReactQueryError, ILoginRequest>({
-    mutationFn: async (credentials: ILoginRequest) => {
+  return useMutation<ISignUpResponse, IReactQueryError, ISignUpRequest>({
+    mutationFn: async (credentials: ISignUpRequest) => {
       return axiosInstance.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login/email`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/signup/email`,
         credentials
       );
     },
@@ -32,7 +32,7 @@ export const useLogin = () => {
             variant: "destructive",
             title: "Uh oh! Something went wrong.",
             description:
-              "There was a problem with your log-in request. Try again.",
+              "There was a problem with your sign-up request. Try again.",
           });
         }
       });
@@ -41,7 +41,8 @@ export const useLogin = () => {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your log-in request. Try again.",
+        description:
+          "There was a problem with your sign-up request. Try again.",
       });
     },
   });

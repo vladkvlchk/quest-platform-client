@@ -1,7 +1,26 @@
-import { ChevronRight, CirclePlusIcon, CompassIcon, User2 } from "lucide-react";
+"use client";
+
+import { signOut, useSession } from "next-auth/react";
+import {
+  ChevronUp,
+  CirclePlusIcon,
+  CompassIcon,
+  LogOutIcon,
+  ScrollTextIcon,
+  User2,
+} from "lucide-react";
 import Link from "next/link";
 
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -12,9 +31,15 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+  SidebarSeparator,
+} from "@/components/ui";
 
 export function AppSidebar() {
+  const { data: session } = useSession();
+
+  const onClickLogOut = () => signOut();
+
+  if (!session) return <>loading...</>;
   return (
     <Sidebar className="flex-1">
       <SidebarHeader>
@@ -50,15 +75,48 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarSeparator />
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link href="/profile">
-              <SidebarMenuButton>
-                <User2 /> Username
-                <ChevronRight className="ml-auto" />
-              </SidebarMenuButton>
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton className="font-semibold text-md">
+                  <Avatar className="h-8 w-auto rounded-md">
+                    <AvatarImage src={session.user.avatar || undefined} />
+                    <AvatarFallback className="border h-8 w-8 rounded-md bg-slate-200">
+                      {session.user.name.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>{" "}
+                  {session.user.name || "Unknown name"}
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
+                <DropdownMenuLabel>
+                  {session.user.name || "Unknown name"}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Link href="/profile">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <User2 /> Profile
+                  </DropdownMenuItem>
+                </Link>
+                <Link href="/my-quests">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <ScrollTextIcon /> My Quests
+                  </DropdownMenuItem>
+                </Link>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={onClickLogOut}
+                >
+                  <LogOutIcon /> Log Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

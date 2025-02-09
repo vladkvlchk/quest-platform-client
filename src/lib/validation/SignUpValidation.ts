@@ -1,11 +1,16 @@
 import { z } from "zod";
 
-export const LoginFormShema = z.object({
+export const SignUpFormShema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, "Name is required")
+    .max(50, "Name must be at most 50 characters"),
   email: z
     .string()
     .trim()
     .min(1, "Email is required")
-    .email('Invalid email address (ex. johndoe@gmail.com)'),
+    .email("Invalid email address (ex. johndoe@gmail.com)"),
   password: z
     .string()
     .trim()
@@ -14,4 +19,4 @@ export const LoginFormShema = z.object({
     .max(50, "Password must be at most 50 characters"),
 });
 
-export type TLoginFormData = z.infer<typeof LoginFormShema>;
+export type TSignUpFormData = z.infer<typeof SignUpFormShema>;
