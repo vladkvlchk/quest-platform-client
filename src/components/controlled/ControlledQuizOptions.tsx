@@ -34,14 +34,14 @@ export const ControlledQuizOptions: FC<Props> = ({ name, control, label }) => {
           onChange([...value, { id: String(Date.now()), text: "" }]);
         };
 
-        const isAllOptionsNotEmpty = !value.find(
+        const isAllOptionsNotEmpty = !value?.find(
           (option: IQuizOption) => !option.text.trim()
         );
 
         return (
           <div key={name} className="space-y-2">
             <Label htmlFor={name}>{label}</Label>
-            {value.map((option: IQuizOption, index: number) => (
+            {(value || []).map((option: IQuizOption, index: number) => (
               <Input
                 key={option.id}
                 id={String(option.id)}

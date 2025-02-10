@@ -2,103 +2,89 @@
 
 import { FC, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-// import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { Button, CardContent, CardFooter } from "../ui";
+import { ControlledInput, ControlledTextarea } from "../controlled";
 import {
-  Button,
-  CardContent,
-  CardFooter,
-  Card,
-  CardTitle,
-  CardHeader,
-} from "../ui";
-import {
-  AboutQuestFormShema,
-  TAboutQuestFormData,
-} from "@/lib/validation/AboutQuestValidation";
-import { ControlledInput, ControlledSelect, ControlledTextarea } from "../controlled";
+  InputLevelFormShema,
+  TInputLevelFormData,
+} from "@/lib/validation/InputLevelValidation";
+import { useLevelsStore } from "@/hooks";
+import { AddLevelButton, FinishButton } from "../atoms";
+import { UploadImageForm } from "./UploadImageForm";
 
 const defaultValues = {
   name: "",
   description: "",
-  location: "online",
-  timeLimit: "0",
-  difficalty: "normal",
+  try_limit: 0,
 };
 
-type Props = {
-  levelName: string;
-};
-
-export const InputLevelForm: FC<Props> = () => {
-  const { handleSubmit, control } = useForm<TAboutQuestFormData>({
+export const InputLevelForm: FC = () => {
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const { updateLevel, currentLevel } = useLevelsStore();
+  const { handleSubmit, control } = useForm<TInputLevelFormData>({
     defaultValues,
-    resolver: zodResolver(AboutQuestFormShema),
+    resolver: zodResolver(InputLevelFormShema),
   });
-  const [isLoading, setIsLoading] = useState(false);
-  //   const router = useRouter();
+  const [isSaved, setIsSaved] = useState(false);
 
-  const onSubmit: SubmitHandler<TAboutQuestFormData> = async (data) => {
-    console.log("submit");
-    setIsLoading(true);
+  const onSubmit: SubmitHandler<TInputLevelFormData> = async (data) => {
+    if (!currentLevel) return null;
     try {
-      console.log("Quest data:", data);
-      // API call
-      // router.push("/my-quests");
+      updateLevel.mutate({
+        levelId: currentLevel?.id,
+        fields: { ...data, pictures: uploadedImages || [] },
+      });
+      setIsSaved(true);
     } catch (error) {
-      console.error("Error creating quest:", error);
-    } finally {
-      setIsLoading(false);
+      console.error("Error submit input level:", error);
     }
   };
 
   return (
-    <Card className="col-span-3 h-min">
-      <CardHeader>
-        <CardTitle>About Quest</CardTitle>
-      </CardHeader>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <CardContent className="space-y-4">
-          <ControlledInput
-            name="name"
-            control={control}
-            label="Quest Name"
-            placeholder="Name of the quest"
-          />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <CardContent className="space-y-4">
+        <UploadImageForm
+          onImagesChange={function (files: File[]): void {
+            setUploadedImages(files);
+          }}
+          maxImages={4}
+        />
 
-          <ControlledTextarea
-            name={"description"}
-            control={control}
-            label={"Description"}
-            placeholder={"Describe the quest"}
-          />
+        <ControlledTextarea
+          name="question"
+          control={control}
+          label="Question"
+          placeholder="Who is the best football player?"
+        />
 
-          <ControlledInput
-            name="timeLimit"
-            control={control}
-            label="Time Limit (minutes)"
-            type="number"
-          />
+        <ControlledInput
+          name="correct_answer"
+          control={control}
+          label="Correct Answer"
+          placeholder="Ronaldo"
+        />
 
-          <ControlledSelect
-            name={"difficalty"}
-            control={control}
-            label={"Difficalty"}
-            placeholder={"Select difficalty"}
-            items={[
-              { value: "easy", name: "Easy" },
-              { value: "normal", name: "Normal" },
-              { value: "hard", name: "Hard" },
-            ]}
-          />
-        </CardContent>
-        <CardFooter>
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Creating Quest..." : "Create Quest"}
+        <ControlledInput
+          name="try_limit"
+          control={control}
+          label="Try Limit (1 time - 100 times)"
+          type="number"
+        />
+      </CardContent>
+      <CardFooter>
+        {isSaved ? (
+          <div className="grid grid-cols-2 gap-2 w-full">
+            <AddLevelButton />
+            <FinishButton />
+          </div>
+        ) : (
+          <Button type="submit" className="w-full">
+            Save
           </Button>
-        </CardFooter>
-      </form>
-    </Card>
+        )}
+      </CardFooter>
+    </form>
   );
 };

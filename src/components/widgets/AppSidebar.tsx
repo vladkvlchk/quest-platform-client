@@ -58,7 +58,16 @@ export function AppSidebar() {
                 <SidebarMenuButton asChild>
                   <Link href={"/explore-quests"}>
                     <CompassIcon />
-                    <span>Explore Quest</span>
+                    <span>Explore Quests</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href={"/my-quests"}>
+                    <ScrollTextIcon />
+                    <span>My Quests</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

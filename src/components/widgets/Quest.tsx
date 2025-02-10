@@ -18,7 +18,9 @@ import { AboutQuest } from "./AboutQuest";
 import { InputLevel } from "./InputLevel";
 
 const mockQuest = {
-  name: "Development Knowledge Quest",
+  id: "000",
+  name: "About Quiz",
+  title: "Title lalalalala",
   description:
     "Participation page. Don't forget that the quest have time limit. Good luck!",
   levels: [
@@ -28,6 +30,7 @@ const mockQuest = {
       imageUrls: [],
       name: "About Quest",
       description: "Super-puper quest",
+      timeLimitMinutes: 15,
     },
     {
       type: "quiz",
@@ -95,13 +98,11 @@ const levels = {
 
 export const Quest = ({ questId }: { questId: string }) => {
   const quest = mockQuest;
-  const [currentLevel, setCurrentLevel] = useState<TLevel>(
-    quest.levels[0] as IAboutLevel
-  );
+  const [currentLevel, setCurrentLevel] = useState<TLevel>();
 
   return (
     <>
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <CardHeader>
           <CardTitle>
             {quest.name}
@@ -152,7 +153,7 @@ export const Quest = ({ questId }: { questId: string }) => {
             <Button className="w-full">Submit All Answers</Button>
           </CardFooter>
         </Card>
-      </div>
+      </div> */}
     </>
   );
 };

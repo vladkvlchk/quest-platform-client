@@ -39,7 +39,7 @@ export const ControlledSelect: FC<Props> = ({
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
-              {items.map((item, index) => (
+              {(items || []).map((item, index) => (
                 <SelectItem key={index} value={String(item.value)}>
                   {item.name}
                 </SelectItem>

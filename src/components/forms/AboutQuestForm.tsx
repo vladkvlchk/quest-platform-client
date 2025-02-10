@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -14,44 +13,56 @@ import {
   ControlledSelect,
   ControlledTextarea,
 } from "../controlled";
-
-const defaultValues = {
-  name: "",
-  description: "",
-  location: "online",
-  timeLimit: "0",
-  difficalty: "normal",
-};
+import { UploadImageForm } from "./UploadImageForm";
+import { useLayoutEffect, useState } from "react";
+import { AddLevelButton } from "../atoms/AddLevelButton";
+import { useLevelsStore } from "@/hooks";
 
 export const AboutQuestForm = () => {
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [uploadedImage, setUploadedImage] = useState<File | undefined>();
   const { handleSubmit, control } = useForm<TAboutQuestFormData>({
-    defaultValues,
+    defaultValues: {
+      title: "",
+      description: "",
+      time_limit: 0,
+      difficulty: "normal",
+      location: "online",
+    },
     resolver: zodResolver(AboutQuestFormShema),
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const { updateLevel, currentLevel, levels, addLevel } = useLevelsStore();
 
   const onSubmit: SubmitHandler<TAboutQuestFormData> = async (data) => {
-    console.log("submit");
-    setIsLoading(true);
-    try {
-      console.log("Quest data:", data);
-      // API call
-      // router.push("/my-quests");
-    } catch (error) {
-      console.error("Error creating quest:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    if (!currentLevel?.id) return null;
+    updateLevel.mutate({
+      levelId: currentLevel?.id,
+      fields: {
+        ...data,
+        difficulty: data.difficulty as "easy" | "normal" | "hard",
+        main_picture: uploadedImage,
+      },
+    });
+    setIsSaved(true);
   };
+
+  useLayoutEffect(() => {}, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <CardContent className="space-y-4">
+        <UploadImageForm
+          onImagesChange={function (files: File[]): void {
+            setUploadedImage(files[0]);
+          }}
+          maxImages={1}
+        />
+
         <ControlledInput
-          name="name"
+          name="title"
           control={control}
-          label="Quest Name"
-          placeholder="Name of the quest"
+          label="Quest Title"
+          placeholder="Title of the quest"
         />
 
         <ControlledTextarea
@@ -62,16 +73,16 @@ export const AboutQuestForm = () => {
         />
 
         <ControlledInput
-          name="timeLimit"
+          name="time_limit"
           control={control}
           label="Time Limit (minutes)"
           type="number"
         />
 
         <ControlledSelect
-          name={"difficalty"}
+          name={"difficulty"}
           control={control}
-          label={"Difficalty"}
+          label={"Difficulty"}
           placeholder={"Select difficalty"}
           items={[
             { value: "easy", name: "Easy" },
@@ -81,9 +92,13 @@ export const AboutQuestForm = () => {
         />
       </CardContent>
       <CardFooter>
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Creating Quest..." : "Create Quest"}
-        </Button>
+        {isSaved ? (
+          <AddLevelButton />
+        ) : (
+          <Button type="submit" className="w-full">
+            Save
+          </Button>
+        )}
       </CardFooter>
     </form>
   );
