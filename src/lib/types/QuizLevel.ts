@@ -5,8 +5,10 @@ export interface IQuizOption {
 
 export interface IQuizLevel {
   type: "quiz";
+  id: string;
   name: string;
   question: string;
+  pictures: File[];
   options: IQuizOption[];
-  correctOptionId: string;
+  correct_option_id: string;
 }

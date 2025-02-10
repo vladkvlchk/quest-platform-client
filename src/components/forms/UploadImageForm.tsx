@@ -51,21 +51,26 @@ export function UploadImageForm({
 
   return (
     <div className="space-y-4">
-      <div
-        {...getRootProps()}
-        className={`border-2 border-dashed rounded-md p-4 text-center cursor-pointer transition-colors ${
-          isDragActive
-            ? "border-primary bg-primary/10"
-            : "border-gray-300 hover:border-primary"
-        }`}
-      >
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the images here ...</p>
-        ) : (
-          <p>Drag &apos;n&apos; drop some images here, or click to select images</p>
-        )}
-      </div>
+      {images.length < maxImages && (
+        <div
+          {...getRootProps()}
+          className={`border-2 border-dashed rounded-md p-4 text-center cursor-pointer transition-colors ${
+            isDragActive
+              ? "border-primary bg-primary/10"
+              : "border-gray-300 hover:border-primary"
+          }`}
+        >
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the images here ...</p>
+          ) : (
+            <p>
+              Drag &apos;n&apos; drop some images here, or click to select
+              images
+            </p>
+          )}
+        </div>
+      )}
       {images.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {images.map((image, index) => (
