@@ -6,7 +6,9 @@ import {
   CirclePlusIcon,
   CompassIcon,
   LogOutIcon,
+  MoonIcon,
   ScrollTextIcon,
+  SunIcon,
   User2,
 } from "lucide-react";
 import Link from "next/link";
@@ -33,9 +35,12 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui";
+import { useTheme } from "next-themes";
 
 export function AppSidebar() {
   const { data: session } = useSession();
+  const { theme, setTheme } = useTheme();
+  const onSwitchTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   const onClickLogOut = () => signOut();
 
@@ -83,7 +88,23 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Settings</SidebarGroupLabel>
+          <SidebarContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={onSwitchTheme}>
+                  <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                  <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  <span>Switch theme</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarContent>
+        </SidebarGroup>
       </SidebarContent>
+
       <SidebarSeparator />
       <SidebarFooter>
         <SidebarMenu>
