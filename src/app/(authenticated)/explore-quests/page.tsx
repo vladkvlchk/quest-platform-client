@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 
-import img from "../../../../public/questImgPlaceholder.png";
 import QuestPreviewCard from "@/components/widgets/QuestPreviewCard";
 import { useQuests } from "@/hooks";
 import { CardDescription, CardHeader, CardTitle } from "@/components";
@@ -22,8 +21,8 @@ export default function ExploreQuestsPage() {
         <CardTitle>Explore Quests</CardTitle>
         <CardDescription>Find the quests that you want to join</CardDescription>
       </CardHeader>
-      <div className="grid grid-cols-2 gap-4 px-3 md:grid-cols-3">
-        {quests.map((item) => (
+      <div className="grid grid-cols-2 gap-4 px-3 md:grid-cols-3 mb-10">
+        {quests.reverse().map((item) => (
           <div key={item._id} onClick={() => onClickCard(item._id)}>
             <QuestPreviewCard players={0} {...item} />
           </div>

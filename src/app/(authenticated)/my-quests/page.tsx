@@ -1,71 +1,42 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-import img from "../../../../public/questImgPlaceholder.png";
 import QuestPreviewCard from "@/components/widgets/QuestPreviewCard";
+import { useQuests } from "@/hooks";
+import { CardDescription, CardHeader, CardTitle } from "@/components";
 
-const mockItems = [
-  {
-    id: "1",
-    name: "First Quest",
-    description: "This is the first quest",
-    tasks: 5,
-    players: 2,
-    time: 30,
-    img: img,
-    rating: 4,
-    format: "Онлайн/Місто",
-  },
-  {
-    id: "2",
-    name: "Second Quest",
-    description: "This is the second quest",
-    tasks: 5,
-    players: 2,
-    time: 30,
-    img: img,
-    rating: 4,
-    format: "Онлайн/Місто",
-  },
-  {
-    id: "3",
-    name: "Third Quest",
-    description: "This is the third quest",
-    tasks: 5,
-    players: 2,
-    time: 30,
-    img: img,
-    rating: 4,
-    format: "Онлайн/Місто",
-  },
-  {
-    id: "4",
-    name: "Forth Quest",
-    description: "This is the forth quest",
-    tasks: 5,
-    players: 2,
-    time: 30,
-    img: img,
-    rating: 4,
-    format: "Онлайн/Місто",
-  },
-];
-
-export default function ExploreQuestsPage() {
+export default function MyQuestsPage() {
   const router = useRouter();
+
+  const { data: quests, isLoading, error } = useQuests();
+  const { data: session, status } = useSession();
 
   const onClickCard = (id: string) => router.push("/quest/" + id);
 
+  if (isLoading || status === "loading") return <p>Loading...</p>;
+  if (error || !Array.isArray(quests)) return <p>Error loading quests</p>;
+
+  const onlyMyquests = quests
+    ?.filter((quest) => quest.created_by === session?.user.id)
+    .reverse();
+
   return (
-    <div className="grid grid-cols-3 gap-4 px-3">
-      {/* <ul>
-        {mockItems.map((item) => (
-          <li key={item.id} onClick={() => onClickCard(item.id)}>
-            <QuestPreviewCard {...item} />
-          </li>
+    <>
+      <CardHeader>
+        <CardTitle>My Quests</CardTitle>
+        <CardDescription>
+          These are the quests that were created by the current user
+        </CardDescription>
+      </CardHeader>
+      <div className="grid grid-cols-2 gap-4 px-3 md:grid-cols-3 mb-10">
+        {onlyMyquests.map((item) => (
+          <div key={item._id} onClick={() => onClickCard(item._id)}>
+            <QuestPreviewCard players={0} {...item} />
+          </div>
         ))}
-      </ul> */}
-    </div>
+      </div>
+    </>
   );
 }
