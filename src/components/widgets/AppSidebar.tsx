@@ -12,6 +12,7 @@ import {
   User2,
 } from "lucide-react";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
 import {
   Avatar,
@@ -34,8 +35,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
+  Skeleton,
 } from "@/components/ui";
-import { useTheme } from "next-themes";
+import { useIsMounted } from "@/hooks";
 
 export function AppSidebar() {
   const { data: session } = useSession();
@@ -43,6 +45,10 @@ export function AppSidebar() {
   const onSwitchTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   const onClickLogOut = () => signOut();
+
+  const isMounted = useIsMounted();
+
+  if (!isMounted) return <Skeleton className="h-full w-[300px]" />;
 
   if (!session) return <>loading...</>;
   return (

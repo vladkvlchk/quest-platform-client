@@ -1,66 +1,78 @@
-import Image, { StaticImageData } from "next/image";
+"use client";
+
+import Image from "next/image";
 import { CircleUser, MapPin, ClipboardList, Clock, Star } from "lucide-react";
 import {
   Card,
   CardContent,
-  CardFooter,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Badge } from "../ui/badge";
 
 export default function QuestPreviewCard(props: {
-  id: string;
+  _id: string;
   name: string;
+  title: string;
   description: string;
   players: number;
-  tasks: number;
-  time: number;
-  format: string;
-  rating: number;
-  img: StaticImageData;
+  levels: any[];
+  time_limit: number;
+  place?: string;
+  rating?: number;
+  main_picture: string;
+  difficulty: string;
 }) {
   return (
-    <Card className="w-[400px] h-[636px] rounded-[50px] cursor-pointer bg-[#D9D9D9]">
-      <CardHeader className="px-[9px] text-shadow py-[12px] h-full relative">
-        <div className="relative">
-          <Image
-            className="rounded-[50px] w-[381px] h-[334px] mb-[15px]"
-            src={props.img}
-            alt={props.name}
-          />
-          <div className="absolute flex items-center h-[27px] top-[12px] left-[20px] bg-[#D9D9D9] rounded-[50px] text-[15px]/[30px] font-normal px-[7px] py-[2px]">
-            складність
-          </div>
-          <div className="absolute flex gap-1 flex-row items-center h-[27px] top-[12px] right-[20px] bg-[#D9D9D9] rounded-[50px] text-[15px]/[30px] px-[7px] py-[3px]">
-            {props.rating}
-            <Star size={16} />
-          </div>
-        </div>
-        <CardTitle className="text-[24px]/[28px] px-[10px] uppercase font-normal">
-          {props.name}
-        </CardTitle>
-        <div className="flex flex-col justify-between px-[6px] h-36">
-          <div className="text-[20px]/[23.4px] px-[6px]">
-            {props.description}
-          </div>
-          <CardContent className="text-[20px][23.4px] px-[6px] flex flex-row gap-0.5">
-            <MapPin color={"black"} size={22} />
-            {props.format}
-          </CardContent>
-        </div>
-        <CardFooter className="flex flex-row justify-between pt-[30px] mt-0 pb-0 px-[16px] text-[14px]/[18.72px]">
-          {[
-            { icon: CircleUser, value: props.players },
-            { icon: ClipboardList, value: props.tasks },
-            { icon: Clock, value: props.time },
-          ].map((item, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <item.icon color="black" size={32} />
-              {item.value}
-            </div>
-          ))}
-        </CardFooter>
+    <Card className="cursor-pointer h-auto">
+      <CardHeader>
+        <Card className="w-full h-40 flex items-center justify-center relative overflow-hidden bg-slate-100 dark:bg-gray-900">
+          <Badge className="absolute top-2 left-2 z-10 ">
+            {props.difficulty}
+          </Badge>
+          <Badge className="absolute top-2 right-2 z-10 gap-1 px-2">
+            4.9 <Star size={16} />
+          </Badge>
+          {props.main_picture ? (
+            <Image
+              className="w-full h-auto object-cover"
+              src={props.main_picture}
+              alt={props.title}
+              fill
+              sizes="100vw"
+            />
+          ) : (
+            <CardDescription>no image</CardDescription>
+          )}
+        </Card>
       </CardHeader>
+      <CardContent>
+        <CardTitle>{props.title || "[No title]"}</CardTitle>
+        <CardDescription className="mt-1">
+          {props.description || "[No description]"}
+        </CardDescription>
+        <div className="flex justify-between">
+          <div className="flex mt-1 gap-1">
+            <MapPin />
+            {props.place || "online"}
+          </div>
+          <div className="flex mt-1 gap-1">
+            <Clock />
+            {props.time_limit + " min" || "[no-limit]"}
+          </div>
+        </div>
+        <div className="flex justify-between">
+          <div className="flex mt-3 gap-1">
+            <ClipboardList />
+            {props.levels ? props.levels?.length + " levels" : ""}
+          </div>
+          <div className="flex mt-3 gap-1">
+            <CircleUser />
+            {props.players}
+          </div>
+        </div>
+      </CardContent>
     </Card>
   );
 }

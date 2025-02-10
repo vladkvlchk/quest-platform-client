@@ -59,13 +59,13 @@ export default function ExploreQuestsPage() {
 
   return (
     <div className="grid grid-cols-3 gap-4 px-3">
-      <ul>
+      {/* <ul>
         {mockItems.map((item) => (
           <li key={item.id} onClick={() => onClickCard(item.id)}>
             <QuestPreviewCard {...item} />
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
