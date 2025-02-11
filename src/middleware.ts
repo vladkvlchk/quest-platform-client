@@ -3,25 +3,29 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
-  const pathname = req.nextUrl.pathname;
-  const res = NextResponse.next();
+  const { pathname } = req.nextUrl;
+
+  if (pathname.startsWith("/_next") || pathname.includes(".")) {
+    return NextResponse.next();
+  }
 
   const token = await getToken({ req });
-  const pathNames = pathname.split("/");
 
-  if ((pathNames[1] === "auth" && token) || pathNames[1] === "") {
-    const url = new URL(`/explore-quests`, req.url);
-    return NextResponse.redirect(url);
-  }
-  
-  if (pathNames[1] !== "auth" && !token) {
-    const url = new URL(`/auth`, req.url);
-    return NextResponse.redirect(url);
+  if (token && pathname === "/") {
+    return NextResponse.redirect(new URL("/explore-quests", req.url));
   }
 
-  return res;
+  if (token && pathname.startsWith("/auth")) {
+    return NextResponse.redirect(new URL("/explore-quests", req.url));
+  }
+
+  if (!token && !pathname.startsWith("/auth")) {
+    return NextResponse.redirect(new URL("/auth", req.url));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/profile/:path*", "/explore-quests/:path*", "/auth/:path*", "/"],
+  matcher: ["/", "/profile/:path*", "/explore-quests/:path*", "/auth/:path*"],
 };
