@@ -10,6 +10,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   Separator,
 } from "../ui";
 import { QuizLevel } from "./QuizLevel";
@@ -152,7 +159,26 @@ export const Quest = ({ questId }: { questId: string }) => {
           <>
             <Separator />
             <CardFooter className="mt-4">
-              <Button className="w-full">Finish Now</Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="w-full">Finish Now</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>
+                      Are you sure that you want finish the quest right now?
+                    </DialogTitle>
+                    <DialogDescription>
+                      Confirm that use want to finish the quest. All ignored
+                      levels will be considered as failed.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <Button variant="outline">Cancel</Button>
+                    <Button>Confirm</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </CardFooter>
           </>
         )}

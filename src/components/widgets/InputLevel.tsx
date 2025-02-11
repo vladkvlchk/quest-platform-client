@@ -25,7 +25,7 @@ export const InputLevel: FC<IInputLevelResponse> = ({
 
   const onClickCheck = () => {
     if (!progress || !Array.isArray(progress?.answers)) return null;
-    if (answer === correct_answer) {
+    if (answer.toLowerCase() === correct_answer.toLowerCase()) {
       const answers: IAnswer[] = progressedLevel
         ? progress?.answers.map((_answer) =>
             _answer.question_id === id
@@ -53,7 +53,7 @@ export const InputLevel: FC<IInputLevelResponse> = ({
         current_level_index: progress.current_level_index + 1,
       });
     }
-    if (answer !== correct_answer) {
+    if (answer.toLowerCase() !== correct_answer.toLowerCase()) {
       const answers: IAnswer[] = progressedLevel
         ? progress?.answers.map((_answer) =>
             _answer.question_id === id
