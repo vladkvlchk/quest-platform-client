@@ -133,7 +133,7 @@ export function AppSidebar() {
                   {session.user.name || "Unknown name"}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <Link href="/profile">
+                <Link href={`/profile/${session.user.id}`}>
                   <DropdownMenuItem className="cursor-pointer">
                     <User2 /> Profile
                   </DropdownMenuItem>
