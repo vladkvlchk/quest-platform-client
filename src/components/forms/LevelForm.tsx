@@ -2,9 +2,9 @@
 
 import { FC, useLayoutEffect } from "react";
 
-import { AboutQuestForm } from "./AboutQuestForm";
-import { QuizLevelForm } from "./QuizLevelForm";
-import { InputLevelForm } from "./InputLevelForm";
+import { AboutQuestForm } from "@/components";
+import { QuizLevelForm } from "@/components";
+import { InputLevelForm } from "@/components";
 import { Card, CardDescription, CardHeader, CardTitle, Separator } from "../ui";
 import { useLevelsStore } from "@/hooks";
 import { IAboutLevel } from "@/lib/types";
