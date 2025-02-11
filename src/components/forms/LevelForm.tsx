@@ -18,9 +18,10 @@ const descriptions = {
 };
 
 export const LevelForm: FC = () => {
-  const { currentLevel, addLevel, setCurrentLevel } = useLevelsStore();
+  const { currentLevel, addLevel, setCurrentLevel, levels } = useLevelsStore();
 
   useLayoutEffect(() => {
+    if (levels) return;
     const aboutLevel: IAboutLevel = {
       id: String(Math.floor(Math.random() * Date.now())),
       type: "about",
