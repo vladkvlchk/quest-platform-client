@@ -3,6 +3,26 @@ import { IQuizLevel } from "../QuizLevel";
 
 export type TDifficulty = "easy" | "normal" | "hard";
 
+export interface IQuizLevelResponse {
+  id: string;
+  type: "quiz";
+  name: string;
+  question: string;
+  picture_urls: string[];
+  options: { id: string; text: string }[];
+  correct_option_id: string;
+}
+
+export interface IInputLevelResponse {
+  id: string;
+  type: "input";
+  name: string;
+  question: string;
+  picture_urls: string[];
+  correct_answer: string;
+  try_limit: number;
+}
+
 export interface IQuestItemResponse {
   _id: string;
   name: string;
@@ -12,7 +32,8 @@ export interface IQuestItemResponse {
   difficulty: TDifficulty;
   main_picture: string;
   created_by: string;
-  levels: (IQuizLevel | IInputLevel)[];
+  location: string;
+  levels: (IQuizLevelResponse | IInputLevelResponse)[];
 }
 
 export type TQuestsResponse = IQuestItemResponse[];

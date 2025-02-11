@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
 
 import {
   Button,
@@ -12,148 +12,151 @@ import {
   CardTitle,
   Separator,
 } from "../ui";
-import { IAboutLevel, TLevel } from "@/lib/types";
 import { QuizLevel } from "./QuizLevel";
-import { AboutQuest } from "./AboutQuest";
 import { InputLevel } from "./InputLevel";
-
-const mockQuest = {
-  id: "000",
-  name: "About Quiz",
-  title: "Title lalalalala",
-  description:
-    "Participation page. Don't forget that the quest have time limit. Good luck!",
-  levels: [
-    {
-      type: "about",
-      id: "1111",
-      imageUrls: [],
-      name: "About Quest",
-      description: "Super-puper quest",
-      timeLimitMinutes: 15,
-    },
-    {
-      type: "quiz",
-      name: "Level 1",
-      question: "Who is Ronaldo?",
-      options: [
-        {
-          id: "0",
-          text: "Football player",
-        },
-        {
-          id: "1",
-          text: "My friend",
-        },
-        {
-          id: "2",
-          text: "Artist",
-        },
-        {
-          id: "3",
-          text: "Nobody",
-        },
-      ],
-      correctOptionId: "0",
-    },
-    {
-      type: "quiz",
-      name: "Level 2",
-      question: "Who is Messi?",
-      options: [
-        {
-          id: "0",
-          text: "Football player",
-        },
-        {
-          id: "1",
-          text: "Your friend",
-        },
-        {
-          id: "2",
-          text: "Book character",
-        },
-        {
-          id: "3",
-          text: "Somebody else",
-        },
-      ],
-      correctOptionId: "0",
-    },
-  ],
-};
-
-const levels = {
-  quiz: { subtitle: "Select one option", component: QuizLevel },
-  about: {
-    subtitle: "About the quest. Click on the start button to participate",
-    component: AboutQuest,
-  },
-  input: {
-    subtitle:
-      "Try to find the correct answer. You have limited amount of tries",
-    component: InputLevel,
-  },
-};
+import { useProgressStore, useQuest } from "@/hooks";
+import { Badge } from "../ui/badge";
+import { ClipboardList, Clock, MapPin, Star } from "lucide-react";
 
 export const Quest = ({ questId }: { questId: string }) => {
-  const quest = mockQuest;
-  const [currentLevel, setCurrentLevel] = useState<TLevel>();
+  const { progress, setProgress } = useProgressStore();
+  const { data, isPending, error } = useQuest(questId);
+  const quest = data?.quest;
+
+  const onClickStartQuest = () => {
+    if (typeof quest?._id !== "string") return;
+    setProgress({
+      quest_id: quest?._id,
+      started_at: Date.now(),
+      ends_at: Date.now() + quest?.time_limit * 60 * 1000,
+      level_amount: quest.levels.length,
+      current_level_index: 0,
+      answers: [],
+    });
+  };
+
+  if (isPending) return <>loading...</>;
+  if (error || !quest) return <>error: {JSON.stringify(error)}</>;
+
+  const currentLevel = progress
+    ? quest.levels[progress?.current_level_index]
+    : null;
 
   return (
-    <>
-      {/* <div className="flex justify-between">
+    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-4">
+      {/* content card */}
+      <Card className="col-span-3 h-min">
+        {!progress && (
+          <>
+            <CardHeader>
+              <CardTitle>About Quest</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Card className="w-full h-80 flex items-center justify-center relative overflow-hidden bg-slate-100 dark:bg-gray-900">
+                <Badge className="absolute top-2 left-2 z-10 ">
+                  {quest.difficulty}
+                </Badge>
+                <Badge className="absolute top-2 right-2 z-10 gap-1 px-2">
+                  4.9 <Star size={16} />
+                </Badge>
+                {quest.main_picture ? (
+                  <Image
+                    className="w-full h-auto object-cover"
+                    src={quest.main_picture}
+                    alt={quest.title}
+                    fill
+                    sizes="100vw"
+                  />
+                ) : (
+                  <CardDescription>no image</CardDescription>
+                )}
+              </Card>
+              <CardDescription className="my-4">
+                {quest.description}
+              </CardDescription>
+              <div className="flex mt-3 gap-2">
+                <MapPin />
+                location:
+                <b>{(quest.location as string) || " online"}</b>
+              </div>
+              <div className="flex mt-3 gap-2">
+                <Clock />
+                time limit:
+                <b>{quest.time_limit + " min" || "[no-limit]"}</b>
+              </div>
+              <div className="flex mt-3 gap-2">
+                <ClipboardList />
+                amout of levels:
+                <b>{quest.levels ? quest.levels?.length + " levels" : ""}</b>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full" onClick={onClickStartQuest}>
+                Start Now
+              </Button>
+            </CardFooter>
+          </>
+        )}
+        {progress && currentLevel && (
+          <>
+            {currentLevel.type === "quiz" && (
+              <QuizLevel
+                key={progress?.current_level_index}
+                {...currentLevel}
+              />
+            )}
+            {currentLevel.type === "input" && (
+              <InputLevel
+                key={progress?.current_level_index}
+                {...currentLevel}
+              />
+            )}
+          </>
+        )}
+      </Card>
+
+      {/* navigation */}
+      <Card className="h-max">
         <CardHeader>
-          <CardTitle>
-            {quest.name}
-            {`[${questId}]`}
-          </CardTitle>
-          <CardDescription>{quest.description}</CardDescription>
+          <CardDescription>Levels</CardDescription>
         </CardHeader>
-        <CardHeader className="w-max flex-1 flex justify-end items-end">
-          <b className="text-lg">15:46</b>
-        </CardHeader>
-      </div>
-      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-4">
-        <Card className="col-span-3 h-min">
-          <CardHeader className="flex">
-            <CardTitle className="w-max">{currentLevel.name}</CardTitle>
-            <CardDescription>
-              {levels[currentLevel.type].subtitle}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {currentLevel.type === "about" && <AboutQuest {...currentLevel} />}
-            {currentLevel.type === "quiz" && <QuizLevel {...currentLevel} />}
-            {currentLevel.type === "input" && <InputLevel {...currentLevel} />}
-          </CardContent>
-        </Card>
-        <Card className="h-max">
-          <CardHeader>
-            <CardDescription>Levels</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ul className="flex flex-col gap-2">
-              {quest.levels.map((level) => (
+        <CardContent>
+          <div className="flex flex-col gap-2">
+            {quest.levels.map((level) => {
+              const foundInProgress = progress?.answers.find(
+                (answer) => answer.question_id === level.id
+              );
+              return (
                 <Button
                   key={level.name}
                   variant={
-                    currentLevel.name === level.name ? "default" : "secondary"
+                    currentLevel?.name === level.name ? "default" : "secondary"
                   }
-                  className="w-full justify-start"
-                  onClick={() => setCurrentLevel(level as TLevel)}
+                  disabled={Boolean(foundInProgress)}
+                  className={
+                    "w-full justify-start " +
+                    (foundInProgress
+                      ? foundInProgress?.is_correct
+                        ? "bg-green-500"
+                        : "bg-red-500"
+                      : "")
+                  }
                 >
                   {level.name}
                 </Button>
-              ))}
-            </ul>
-          </CardContent>
-          <Separator />
-          <CardFooter className="mt-4">
-            <Button className="w-full">Submit All Answers</Button>
-          </CardFooter>
-        </Card>
-      </div> */}
-    </>
+              );
+            })}
+          </div>
+        </CardContent>
+        {progress !== null && (
+          <>
+            <Separator />
+            <CardFooter className="mt-4">
+              <Button className="w-full">Finish Now</Button>
+            </CardFooter>
+          </>
+        )}
+      </Card>
+    </div>
   );
 };

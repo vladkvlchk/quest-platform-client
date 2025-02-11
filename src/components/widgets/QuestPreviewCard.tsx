@@ -19,7 +19,7 @@ export default function QuestPreviewCard(props: {
   players: number;
   levels: any[];
   time_limit: number;
-  place?: string;
+  location?: string;
   rating?: number;
   main_picture: string;
   difficulty: string;
@@ -49,13 +49,13 @@ export default function QuestPreviewCard(props: {
       </CardHeader>
       <CardContent>
         <CardTitle>{props.title || "[No title]"}</CardTitle>
-        <CardDescription className="mt-1">
+        <CardDescription className="mt-1 mb-3">
           {props.description || "[No description]"}
         </CardDescription>
         <div className="flex justify-between">
           <div className="flex mt-1 gap-1">
             <MapPin />
-            {props.place || "online"}
+            {props.location || "online"}
           </div>
           <div className="flex mt-1 gap-1">
             <Clock />

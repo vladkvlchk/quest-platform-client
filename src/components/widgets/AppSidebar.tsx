@@ -48,9 +48,8 @@ export function AppSidebar() {
 
   const isMounted = useIsMounted();
 
-  if (!isMounted) return <Skeleton className="h-full w-[300px]" />;
+  if (!isMounted || !session) return <Skeleton className="h-full w-[260px]" />;
 
-  if (!session) return <>loading...</>;
   return (
     <Sidebar className="flex-1">
       <SidebarHeader>

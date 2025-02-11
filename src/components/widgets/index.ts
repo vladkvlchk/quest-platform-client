@@ -1,4 +1,3 @@
-export * from "./AboutQuest";
 export * from "./AppSidebar";
 
 export * from "./InputLevel";
