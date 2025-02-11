@@ -40,7 +40,6 @@ export const useProgressStore = () => {
     result: number;
     completed: boolean;
     time_spent: number;
-    quest_total_levels: number;
   }
 
   const getResults = (): IQuestHistoryItemRequest | null => {
@@ -54,7 +53,6 @@ export const useProgressStore = () => {
       ),
       completed: true,
       time_spent: Math.floor((Date.now() - progress.started_at) / 60000),
-      quest_total_levels: progress.level_amount,
     };
   };
 
@@ -73,6 +71,9 @@ export const useProgressStore = () => {
       setProgress(null);
       console.log(data);
     },
+    // onError: () => {
+      
+    // },
   });
 
   return { progress, setProgress, submitProgress };
