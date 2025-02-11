@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "@/lib/axios";
 import { IAboutLevel, IInputLevel, IQuizLevel, TLevel } from "@/lib/types";
 
+//TODO: rename it
 export const FinishButton: FC = () => {
   const { levels } = useLevelsStore();
 

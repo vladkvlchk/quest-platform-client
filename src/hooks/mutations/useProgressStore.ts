@@ -1,4 +1,6 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import axiosInstance from "@/lib/axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 export interface IAnswer {
   question_id: string;
@@ -19,6 +21,7 @@ export interface IProgress {
 
 export const useProgressStore = () => {
   const queryClient = useQueryClient();
+  const { data: session } = useSession();
 
   const { data: progress } = useQuery<IProgress | null>({
     queryKey: ["progress"],
@@ -32,5 +35,45 @@ export const useProgressStore = () => {
     queryClient.setQueryData(["progress"], progress);
   };
 
-  return { progress, setProgress };
+  interface IQuestHistoryItemRequest {
+    quest_id: string;
+    result: number;
+    completed: boolean;
+    time_spent: number;
+    quest_total_levels: number;
+  }
+
+  const getResults = (): IQuestHistoryItemRequest | null => {
+    if (!progress) return null;
+
+    return {
+      quest_id: progress?.quest_id,
+      result: progress.answers.reduce(
+        (res, answer) => (answer.is_correct ? res + 1 : res),
+        0
+      ),
+      completed: true,
+      time_spent: Math.floor((Date.now() - progress.started_at) / 60000),
+      quest_total_levels: progress.level_amount,
+    };
+  };
+
+  const patchQuestHistory = async () => {
+    const { data } = await axiosInstance.patch(
+      `/user/${session?.user.id}/quest_history`,
+      getResults()
+    );
+    return data;
+  };
+
+  const submitProgress = useMutation({
+    mutationKey: ["quest", progress?.quest_id],
+    mutationFn: async () => patchQuestHistory(),
+    onSuccess: (data) => {
+      setProgress(null);
+      console.log(data);
+    },
+  });
+
+  return { progress, setProgress, submitProgress };
 };
