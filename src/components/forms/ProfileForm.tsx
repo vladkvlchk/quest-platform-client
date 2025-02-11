@@ -36,12 +36,10 @@ export function ProfileForm(props: {
       const isAboutMeEmpty = !data.about_me?.trim();
       const isImageEmpty = !uploadedImage;
 
-      if (isNameEmpty && isAboutMeEmpty && isImageEmpty) {
-        props.onSave();
-        return;
-      }
-
-      if(data.name === defaultValues.name && data.about_me === defaultValues.about_me) {
+      if (
+          isNameEmpty && isAboutMeEmpty && isImageEmpty ||
+          data.name === defaultValues.name && data.about_me === defaultValues.about_me && isImageEmpty
+      ) {
         props.onSave();
         return;
       }
@@ -101,7 +99,7 @@ export function ProfileForm(props: {
               placeholder="Tell us about yourself"
           />
           <div className={"flex items-end justify-end gap-2"}>
-            <Button onClick={() => props.onSave()} className={"bg-transparent text-[#7C7878] text-decoration-line: underline hover:bg-black hover:text-white"}>
+            <Button onClick={() => props.onSave()} className={"bg-transparent text-[#7C7878] text-decoration-line: underline hover:text-white dark:hover:bg-white dark:hover:text-black"}>
               Cancel
             </Button>
             <Button type={"submit"} className={"mt-8"} disabled={isPending}>Save changes</Button>

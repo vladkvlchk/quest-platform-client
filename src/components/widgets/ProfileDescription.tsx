@@ -39,7 +39,7 @@ export default function ProfileDescription(props: {
             <Textarea value={props.about_me} className={"pointer-events-none resize-none"}/>
           </div>
       </div>
-        {props.isOwner && <Button onClick={() => props.onEditClick()} className={"bg-white text-[#7C7878] text-decoration-line: underline hover:bg-black hover:text-white"}>
+        {props.isOwner && <Button onClick={() => props.onEditClick()} className={"bg-white text-[#7C7878] text-decoration-line: underline hover:bg-black hover:text-white dark:bg-transparent dark:hover:bg-white dark:hover:text-black"}>
           Edit<Pencil/>
         </Button>}
     </div>
