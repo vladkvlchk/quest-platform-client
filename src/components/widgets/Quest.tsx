@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import {
   Button,
@@ -16,7 +17,7 @@ import { QuizLevel } from "./QuizLevel";
 import { InputLevel } from "./InputLevel";
 import { useProgressStore, useQuest } from "@/hooks";
 import { Badge } from "../ui/badge";
-import { ClipboardList, Clock, MapPin, Star } from "lucide-react";
+import { ClipboardList, Clock, MapPin, Star, StarIcon } from "lucide-react";
 import { FinishProcessButton } from "../atoms";
 
 export const Quest = ({ questId }: { questId: string }) => {
@@ -58,7 +59,7 @@ export const Quest = ({ questId }: { questId: string }) => {
                   {quest.difficulty}
                 </Badge>
                 <Badge className="absolute top-2 right-2 z-10 gap-1 px-2">
-                  4.9 <Star size={16} />
+                  {quest.avg_rating} <Star size={16} />
                 </Badge>
                 {quest.main_picture ? (
                   <Image
@@ -156,6 +157,34 @@ export const Quest = ({ questId }: { questId: string }) => {
               <FinishProcessButton />
             </CardFooter>
           </>
+        )}
+      </Card>
+
+      {/* reviews */}
+      <Card className="col-span-3 border-0">
+        {!progress && quest.ratings && (
+          <CardHeader>
+            <CardDescription>reviews</CardDescription>
+            {quest.ratings.map((review, i) => (
+              <Card key={review.user_id + review.review + i} className="mb-2">
+                <CardHeader className="flex">
+                  <div className="flex items-center gap-4">
+                    <Link href={"/profile/" + review.user_id}>
+                      <b className="hover:underline">user</b>
+                    </Link>
+                    <div className="flex gap-1">
+                      {new Array(review.rating).fill(0).map((_, i) => (
+                        <StarIcon key={i} fill="currentColor" size={8} />
+                      ))}
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardFooter>
+                  <p>&quot;{review.review}&quot;</p>
+                </CardFooter>
+              </Card>
+            ))}
+          </CardHeader>
         )}
       </Card>
     </div>
