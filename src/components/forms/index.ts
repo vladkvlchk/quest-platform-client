@@ -1,4 +1,5 @@
 export * from "./AboutQuestForm";
+export * from "./FeedbackForm";
 
 export * from "./InputLevelForm";
 export * from "./LevelForm";
