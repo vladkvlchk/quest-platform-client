@@ -36,7 +36,7 @@ export default function QuestResultPage() {
       </CardHeader>
 
       <CardContent>
-        <Card className="text-center">
+        <Card className="text-center w-1/2 mx-auto">
           <CardHeader>
             <CardTitle>Congratulations 🎉</CardTitle>
           </CardHeader>
