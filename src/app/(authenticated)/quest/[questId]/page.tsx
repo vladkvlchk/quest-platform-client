@@ -6,6 +6,7 @@ import {
   CardTitle,
   QuestTimer,
 } from "@/components";
+import LoadingPage from "@/components/atoms/LoadingPage";
 import { Quest } from "@/components/widgets/Quest";
 import { useProgressStore, useQuest } from "@/hooks";
 import { useParams } from "next/navigation";
@@ -23,8 +24,8 @@ export default function QuestPage() {
     setProgress(null);
   }, [questId]);
 
-  if (isPending) return <>loading...</>;
-  if (error) return <>QuestPage error: {JSON.stringify(error)}</>;
+  if (isPending) return <LoadingPage />;
+  if (error) return <>error</>;
   return (
     <>
       <div className="flex justify-between">

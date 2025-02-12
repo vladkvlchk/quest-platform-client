@@ -8,6 +8,7 @@ import {
   CardTitle,
   FeedbackForm,
 } from "@/components";
+import LoadingPage from "@/components/atoms/LoadingPage";
 import { useProgressStore, useQuest } from "@/hooks";
 import { useParams } from "next/navigation";
 
@@ -19,9 +20,8 @@ export default function QuestResultPage() {
 
   const { progress } = useProgressStore();
 
-  if (isPending) return <>loading...</>;
-  if (error || !progress)
-    return <>QuestResultPage error: {JSON.stringify(error)}</>;
+  if (isPending) return <LoadingPage />;
+  if (error || !progress) return <>error</>;
 
   const correct_answers_amount = progress?.answers.reduce(
     (res, answer) => (answer.is_correct ? res + 1 : res),

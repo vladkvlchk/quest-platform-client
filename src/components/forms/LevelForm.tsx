@@ -8,6 +8,7 @@ import { InputLevelForm } from "@/components";
 import { Card, CardDescription, CardHeader, CardTitle, Separator } from "../ui";
 import { useLevelsStore } from "@/hooks";
 import { IAboutLevel } from "@/lib/types";
+import LoadingPage from "../atoms/LoadingPage";
 
 const descriptions = {
   about:
@@ -38,7 +39,7 @@ export const LevelForm: FC = () => {
     setTimeout(() => setCurrentLevel(aboutLevel), 0);
   }, []);
 
-  if (!currentLevel) return <>...</>;
+  if (!currentLevel) return <LoadingPage />;
   return (
     <Card className="col-span-3 h-min">
       <CardHeader className="flex">

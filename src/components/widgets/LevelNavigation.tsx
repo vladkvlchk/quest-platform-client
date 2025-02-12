@@ -5,6 +5,7 @@ import { InfoIcon, SquareMenuIcon, TextCursorInputIcon } from "lucide-react";
 
 import { Button, Card, CardContent, CardDescription, CardHeader } from "../ui";
 import { useLevelsStore } from "@/hooks";
+import LoadingPage from "../atoms/LoadingPage";
 
 const icons = {
   quiz: <SquareMenuIcon />,
@@ -19,9 +20,7 @@ type Props = {
 export const LevelNavigation: FC<Props> = ({ mode = "create" }) => {
   const { levels, currentLevel } = useLevelsStore();
 
-  if (!levels) return <>no level</>;
-  //   if (!currentLevel) return <>no currentLevel</>;
-  //   return <>{JSON.stringify(levels) + JSON.stringify(currentLevel)}</>;
+  if (!levels) return <LoadingPage />;
   return (
     <Card className="md:-order-1">
       <CardHeader>

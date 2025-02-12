@@ -150,10 +150,10 @@ export const Quest = ({ questId }: { questId: string }) => {
                   variant={
                     currentLevel?.name === level.name ? "default" : "secondary"
                   }
-                  disabled={Boolean(foundInProgress)}
+                  disabled={foundInProgress && foundInProgress.tries_left === 0}
                   className={
                     "w-full justify-start " +
-                    (foundInProgress
+                    (foundInProgress && foundInProgress.tries_left === 0
                       ? foundInProgress?.is_correct
                         ? "bg-green-500"
                         : "bg-red-500"
@@ -210,9 +210,11 @@ export const Quest = ({ questId }: { questId: string }) => {
                     </div>
                   </div>
                 </CardHeader>
-                <CardFooter>
-                  <p className="text-sm">&quot;{review.review}&quot;</p>
-                </CardFooter>
+                {review.review && (
+                  <CardFooter>
+                    <p className="text-sm">&quot;{review.review}&quot;</p>
+                  </CardFooter>
+                )}
               </Card>
             ))}
           </CardHeader>

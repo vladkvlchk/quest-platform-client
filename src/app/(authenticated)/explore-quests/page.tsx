@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import QuestPreviewCard from "@/components/widgets/QuestPreviewCard";
 import { useQuests } from "@/hooks";
 import { CardDescription, CardHeader, CardTitle } from "@/components";
+import LoadingPage from "@/components/atoms/LoadingPage";
 
 export default function ExploreQuestsPage() {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function ExploreQuestsPage() {
 
   const onClickCard = (id: string) => router.push("/quest/" + id);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingPage />;
   if (error || !Array.isArray(quests)) return <p>Error loading quests</p>;
   return (
     <>

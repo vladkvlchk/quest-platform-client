@@ -3,3 +3,5 @@ export * from "./DialogImage";
 export * from "./FinishButton";
 export * from "./QuestTimer";
 export * from "./FinishProcessButton";
+
+export * from "./LoadingPage";

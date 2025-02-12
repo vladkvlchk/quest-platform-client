@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import QuestPreviewCard from "@/components/widgets/QuestPreviewCard";
 import { useQuests } from "@/hooks";
 import { CardDescription, CardHeader, CardTitle } from "@/components";
+import LoadingPage from "@/components/atoms/LoadingPage";
 
 export default function MyQuestsPage() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function MyQuestsPage() {
 
   const onClickCard = (id: string) => router.push("/quest/" + id);
 
-  if (isLoading || status === "loading") return <p>Loading...</p>;
+  if (isLoading || status === "loading") return <LoadingPage />;
   if (error || !Array.isArray(quests)) return <p>Error loading quests</p>;
 
   const onlyMyquests = quests

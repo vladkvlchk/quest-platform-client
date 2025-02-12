@@ -11,8 +11,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex">
             <SidebarTrigger />
           </div>
-          {children}
-          <Footer/>
+          <div className="min-h-screen">{children}</div>
+          <Footer />
         </div>
       </main>
     </SidebarProvider>

@@ -15,6 +15,7 @@ import {
 } from "@/components";
 import { useQuestsHistory } from "@/hooks/mutations/useQuestsHistory";
 import UserProgressListener from "@/components/atoms/UserProgressListener";
+import LoadingPage from "@/components/atoms/LoadingPage";
 
 export default function ProfilePage() {
   const { userId } = useParams();
@@ -34,7 +35,7 @@ export default function ProfilePage() {
     }
   }, [isEditingState, refetch]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingPage />;
 
   const changeState = (isEditing: boolean) => {
     setIsEditingState(isEditing);
