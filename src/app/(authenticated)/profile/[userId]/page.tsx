@@ -40,7 +40,7 @@ export default function ProfilePage() {
   return (
   <>
     <CardHeader>
-      <CardTitle>My profile</CardTitle>
+      <CardTitle>{isOwner ? "My profile" : "Profile"}</CardTitle>
     </CardHeader>
       <div
           className={`${profileHeight} shadow-[10px_13px_7.5px_rgba(0,0,0,0.25)] mx-5 flex flex-row rounded-[40px] border px-9`}>
