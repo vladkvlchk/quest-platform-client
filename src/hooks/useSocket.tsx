@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
@@ -15,12 +17,6 @@ export const useSocket = (): Socket | null => {
       });
       console.log("Connected at: ", new Date());
     });
-
-    // socketInstance.emit("progressUpdate", "test");
-
-    // socketInstance.on("userProgressUpdate", (arg) => {
-    //   console.log("userProgressUpdate: ", arg);
-    // });
 
     setSocket(socketInstance);
 
