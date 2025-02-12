@@ -1,5 +1,6 @@
 export * from "./AppSidebar";
-
+export * from "./ProfileDescription";
+export * from "./QuestHistoryCard";
 export * from "./InputLevel";
 export * from "./LevelNavigation";
 export * from "./Quest";

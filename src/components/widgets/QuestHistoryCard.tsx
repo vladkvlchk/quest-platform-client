@@ -1,20 +1,36 @@
-import Image, {StaticImageData} from "next/image";
+"use client";
+import Image from "next/image";
 import React from "react";
+import { Clock, Star } from "lucide-react";
+import placeHolderImage from "../../../public/landscapePlaceholder.svg";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components";
+import { TDifficulty } from "@/lib/types";
 
 export default function QuestHistoryCard(props: {
-  img: StaticImageData,
-  name: string,
-  score: number,
-  timeWasted: number,
+  quest_title: string;
+  quest_difficulty: TDifficulty;
+  quest_main_picture: string;
+  result: number;
+  time_spent: number;
 }) {
   return (
-    <div className={"border-2 w-[180px] h-[280px] bg-pink-200 border-black rounded-[25px]"}>
-      <Image className={"w-[180px] h-[180px] rounded-t-[25px] object-cover"} src={props.img} alt={"quest preview image"}/>
-      <div className={"p-2 justify-items-center"}>
-        <h3>{props.name}</h3>
-        <p>рейтинг: {props.score}</p>
-        <p>витрачено часу: {props.timeWasted}</p>
+    <Card className={"relative rounded-[50px] h-auto pb-4 cursor-pointer"}>
+        <Image width={500} height={500} className={"rounded-[50px] p-2 aspect-square object-cover"} src={props.quest_main_picture ? props.quest_main_picture : placeHolderImage} alt={"quest preview image"}/>
+        <Badge className={"absolute top-6 left-6"}>
+          {props.quest_difficulty}
+        </Badge>
+      <div className={"p-3 justify-items-start"}>
+        <h1 className={"text-[20px]"}>{props.quest_title}</h1>
+        <div className={"flex flex-row gap-2"}>
+          <Star/>
+          {props.result}
+        </div>
+        <div className={"flex flex-row gap-2"}>
+          <Clock/>
+          {props.time_spent} min
+        </div>
       </div>
-    </div>
+    </Card>
   )
 }
