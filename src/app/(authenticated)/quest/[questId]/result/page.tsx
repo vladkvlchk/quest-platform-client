@@ -48,7 +48,7 @@ export default function QuestResultPage() {
             <p>
               time spent:
               {` ${Math.ceil(
-                (Date.now() - progress?.started_at) / 6000
+                (Date.now() - progress?.started_at) / 60000
               )} minutes`}
             </p>
           </CardContent>

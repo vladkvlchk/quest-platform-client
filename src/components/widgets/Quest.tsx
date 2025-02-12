@@ -22,7 +22,7 @@ import { FinishProcessButton } from "../atoms";
 import { useEffect } from "react";
 
 export const Quest = ({ questId }: { questId: string }) => {
-  const { progress, setProgress } = useProgressStore();
+  const { progress, setProgress, submitProgress } = useProgressStore();
   const { data, isPending, error } = useQuest(questId);
   const quest = data?.quest;
   const socket = useSocket();
@@ -42,6 +42,10 @@ export const Quest = ({ questId }: { questId: string }) => {
   useEffect(() => {
     if (socket && progress) {
       socket.emit("progressUpdate", progress);
+    }
+
+    if (progress && progress.current_level_index >= progress.level_amount) {
+      submitProgress.mutateAsync();
     }
   }, [progress]);
 

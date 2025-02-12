@@ -78,10 +78,21 @@ export const InputLevel: FC<IInputLevelResponse> = ({
       setProgress({
         ...progress,
         answers,
+        current_level_index:
+          triesLeft > 1
+            ? progress.current_level_index
+            : progress.current_level_index + 1,
       });
     }
 
     setAnswer("");
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      onClickCheck();
+    }
   };
 
   return (
@@ -91,7 +102,10 @@ export const InputLevel: FC<IInputLevelResponse> = ({
       </CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {picture_urls.map((picture_url, i) => (
-          <Card key={picture_url + i} className="w-full h-40 flex items-center justify-center relative overflow-hidden bg-slate-100 dark:bg-gray-900">
+          <Card
+            key={picture_url + i}
+            className="w-full h-40 flex items-center justify-center relative overflow-hidden bg-slate-100 dark:bg-gray-900"
+          >
             <Image
               className="w-full h-auto object-cover"
               src={picture_url}
@@ -109,10 +123,12 @@ export const InputLevel: FC<IInputLevelResponse> = ({
           onChange={(e) => setAnswer(e.target.value)}
           value={answer}
           placeholder="Answer"
+          onKeyDown={handleKeyDown}
         />
         <Button
           className="w-full mt-4"
           onClick={onClickCheck}
+          disabled={!answer}
         >{`Try Answer (${triesLeft} tries left)`}</Button>
       </CardContent>
     </>

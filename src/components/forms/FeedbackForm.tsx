@@ -35,6 +35,13 @@ export const FeedbackForm: FC = () => {
     mutateAsync();
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      onClickShare();
+    }
+  };
+
   if (isSuccess) router.push("/explore-quests");
 
   return (
@@ -58,6 +65,7 @@ export const FeedbackForm: FC = () => {
           placeholder="Do you like the quest?"
           value={text}
           onChange={(e) => setText(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
       </CardContent>
       <CardFooter>
