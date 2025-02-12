@@ -86,24 +86,14 @@ export default function ProfilePage() {
       </CardHeader>
       <div className={"grid grid-cols-5 gap-x-5 gap-y-6 pb-6 mx-5"}>
         {isQuestsHistoryLoading && <CardTitle>Loading...</CardTitle>}
-        {!questsHistoryResponse && !isQuestsHistoryLoading && (
-          <CardDescription>Something went wrong</CardDescription>
-        )}
-        {questsHistoryResponse &&
-          questsHistoryResponse.quest_history.length === 0 && (
-            <CardDescription>No quests completed</CardDescription>
-          )}
-        {questsHistoryResponse &&
-          questsHistoryResponse.quest_history &&
-          questsHistoryResponse.quest_history.map((quest, index) => {
-            return (
-              <div
-                key={quest.quest_id + index}
-                onClick={() => onClickCard(`${quest.quest_id}`)}
-              >
-                <QuestHistoryCard {...quest} />
-              </div>
-            );
+        {!questsHistoryResponse && !isQuestsHistoryLoading && <CardDescription>Something went wrong</CardDescription>}
+        {questsHistoryResponse && questsHistoryResponse.quest_history.length === 0 && <CardDescription>No quests completed</CardDescription>}
+        {questsHistoryResponse && questsHistoryResponse.quest_history && [...questsHistoryResponse.quest_history].reverse().map((quest) => {
+          return(
+            <div key={quest.quest_id} onClick={() => onClickCard(`${quest.quest_id}`)}>
+              <QuestHistoryCard {...quest}/>
+            </div>
+          )
           })}
       </div>
     </>
