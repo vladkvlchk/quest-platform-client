@@ -17,6 +17,7 @@ export default function QuestPreviewCard(props: {
   title: string;
   description: string;
   players: number;
+  avg_rating: number;
   levels: any[];
   time_limit: number;
   location?: string;
@@ -32,7 +33,7 @@ export default function QuestPreviewCard(props: {
             {props.difficulty}
           </Badge>
           <Badge className="absolute top-2 right-2 z-10 gap-1 px-2">
-            4.9 <Star size={16} />
+            {props.avg_rating} <Star size={16} />
           </Badge>
           {props.main_picture ? (
             <Image
