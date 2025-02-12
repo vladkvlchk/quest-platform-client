@@ -1,6 +1,10 @@
+"use client";
+
 import axiosInstance from "@/lib/axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { toast } from "../use-toast";
+import { useRouter } from "next/navigation";
 
 export interface IAnswer {
   question_id: string;
@@ -22,6 +26,7 @@ export interface IProgress {
 export const useProgressStore = () => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
+  const router = useRouter();
 
   const { data: progress } = useQuery<IProgress | null>({
     queryKey: ["progress"],
@@ -67,13 +72,17 @@ export const useProgressStore = () => {
   const submitProgress = useMutation({
     mutationKey: ["quest", progress?.quest_id],
     mutationFn: async () => patchQuestHistory(),
-    onSuccess: (data) => {
-      setProgress(null);
-      console.log(data);
+    onSuccess: () => {
+      router.push(`./${progress?.quest_id}/result`);
     },
-    // onError: () => {
-      
-    // },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description:
+          "There was a problem with your sign-up request. Try again.",
+      });
+    },
   });
 
   return { progress, setProgress, submitProgress };
