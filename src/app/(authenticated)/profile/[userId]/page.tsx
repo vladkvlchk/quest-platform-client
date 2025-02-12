@@ -59,7 +59,7 @@ export default function ProfilePage() {
         {isQuestsHistoryLoading && <CardTitle>Loading...</CardTitle>}
         {!questsHistoryResponse && !isQuestsHistoryLoading && <CardDescription>Something went wrong</CardDescription>}
         {questsHistoryResponse && questsHistoryResponse.quest_history.length === 0 && <CardDescription>No quests completed</CardDescription>}
-        {questsHistoryResponse && questsHistoryResponse.quest_history && questsHistoryResponse.quest_history.map((quest) => {
+        {questsHistoryResponse && questsHistoryResponse.quest_history && [...questsHistoryResponse.quest_history].reverse().map((quest) => {
           return(
             <div key={quest.quest_id} onClick={() => onClickCard(`${quest.quest_id}`)}>
               <QuestHistoryCard {...quest}/>
