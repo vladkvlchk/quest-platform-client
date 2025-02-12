@@ -3,8 +3,10 @@
 import axiosInstance from "@/lib/axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { toast } from "../use-toast";
 import { useRouter } from "next/navigation";
+
+import { toast } from "../use-toast";
+import { useSocket } from "@/hooks/useSocket";
 
 export interface IAnswer {
   question_id: string;
@@ -51,7 +53,7 @@ export const useProgressStore = () => {
     if (!progress) return null;
 
     return {
-      quest_id: progress?.quest_id,
+      quest_id: progress.quest_id,
       result: progress.answers.reduce(
         (res, answer) => (answer.is_correct ? res + 1 : res),
         0
