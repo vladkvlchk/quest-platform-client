@@ -1,11 +1,11 @@
 "use client";
 
 import { FC, useState } from "react";
-import Image from "next/image";
 
 import { IInputLevelResponse } from "@/lib/types";
-import { Button, Card, CardContent, CardHeader, CardTitle, Input } from "../ui";
+import { Button, CardContent, CardHeader, CardTitle, Input } from "../ui";
 import { useProgressStore, IAnswer } from "@/hooks";
+import { DialogImage } from "../atoms";
 
 export const InputLevel: FC<IInputLevelResponse> = ({
   id,
@@ -102,18 +102,7 @@ export const InputLevel: FC<IInputLevelResponse> = ({
       </CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {picture_urls.map((picture_url, i) => (
-          <Card
-            key={picture_url + i}
-            className="w-full h-40 flex items-center justify-center relative overflow-hidden bg-slate-100 dark:bg-gray-900"
-          >
-            <Image
-              className="w-full h-auto object-cover"
-              src={picture_url}
-              alt={"picture " + i}
-              fill
-              sizes="100vw"
-            />
-          </Card>
+          <DialogImage key={picture_url + i} url={picture_url} />
         ))}
       </CardContent>
       <CardContent>
