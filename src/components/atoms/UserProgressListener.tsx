@@ -44,12 +44,12 @@ const UserProgressListener = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <p>
-          quest id:{" "}
+        <div className="flex gap-2">
+          quest:
           <Link href={`/quest/${progress?.quest_id}`}>
-            {progress?.quest_id}
+            <p className="hover:underline">{progress?.title}</p>
           </Link>
-        </p>
+        </div>
         <p>
           current level: {progress?.current_level_index} /{" "}
           {progress?.level_amount}

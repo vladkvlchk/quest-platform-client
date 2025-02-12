@@ -4,6 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   Button,
   Card,
   CardContent,
@@ -30,6 +33,7 @@ export const Quest = ({ questId }: { questId: string }) => {
   const onClickStartQuest = () => {
     if (typeof quest?._id !== "string") return;
     setProgress({
+      title: quest.title,
       quest_id: quest?._id,
       started_at: Date.now(),
       ends_at: Date.now() + quest?.time_limit * 60 * 1000,
@@ -181,18 +185,33 @@ export const Quest = ({ questId }: { questId: string }) => {
               <Card key={review.user_id + review.review + i} className="mb-2">
                 <CardHeader className="flex">
                   <div className="flex items-center gap-4">
-                    <Link href={"/profile/" + review.user_id}>
-                      <b className="hover:underline">user</b>
+                    <Link
+                      href={"/profile/" + review.user_id}
+                      className="flex items-center gap-2"
+                    >
+                      <Avatar className="h-8 w-8 rounded-full">
+                        <AvatarImage
+                          src={review.user_profile_picture || undefined}
+                          width={40}
+                          height={40}
+                        />
+                        <AvatarFallback className="border h-8 w-8 rounded-full bg-slate-200">
+                          {review.user_name.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <b className="hover:underline text-base">
+                        {review.user_name}
+                      </b>
                     </Link>
                     <div className="flex gap-1">
                       {new Array(review.rating).fill(0).map((_, i) => (
-                        <StarIcon key={i} fill="currentColor" size={8} />
+                        <StarIcon key={i} fill="currentColor" size={16} />
                       ))}
                     </div>
                   </div>
                 </CardHeader>
                 <CardFooter>
-                  <p>&quot;{review.review}&quot;</p>
+                  <p className="text-sm">&quot;{review.review}&quot;</p>
                 </CardFooter>
               </Card>
             ))}

@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import { toast } from "../use-toast";
-import { useSocket } from "@/hooks/useSocket";
 
 export interface IAnswer {
   question_id: string;
@@ -17,9 +16,11 @@ export interface IAnswer {
 }
 
 export interface IProgress {
+  title: string;
   quest_id: string;
   started_at: number;
   ends_at: number;
+  ended_at?: number;
   level_amount: number;
   current_level_index: number;
   answers: IAnswer[];

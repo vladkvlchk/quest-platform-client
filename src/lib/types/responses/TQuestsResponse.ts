@@ -37,6 +37,8 @@ export interface IQuestItemResponse {
   avg_rating: number;
   ratings: {
     user_id: string;
+    user_name: string;
+    user_profile_picture: string | null;
     review: string;
     rating: number;
   }[]
