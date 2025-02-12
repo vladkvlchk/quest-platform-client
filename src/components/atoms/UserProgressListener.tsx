@@ -55,13 +55,13 @@ const UserProgressListener = () => {
           {progress?.level_amount}
         </p>
         <p>
-          time left: {Math.ceil((progress?.ends_at - Date.now()) / 6000)}{" "}
+          time left: {Math.ceil((progress?.ends_at - Date.now()) / 60000)}{" "}
           minutes
         </p>
       </CardContent>
       <CardFooter>
         <Progress
-          value={progress?.current_level_index / progress?.level_amount}
+          value={(progress?.current_level_index / progress?.level_amount) * 100}
         />
       </CardFooter>
     </Card>
