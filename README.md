@@ -1,37 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quest Platform Client
 
-## Getting Started
+Web client for a questing platform.
 
-First, run the development server:
+## Deploy
+You can visit the platform by clicking this [link](https://quest-platform-client.vercel.app).
+
+## Run Locally
+
+Clone the project:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/vladkvlchk/quest-platform-client.git
+```  
+
+Install dependencies:
+
+```bash
+npm install
+```  
+
+Add the backend server link to `.env`:
+
 ```
+NEXT_PUBLIC_API_URL={server link}
+NEXTAUTH_SECRET=$(openssl rand -base64 32)  # Generate a secure key using this command
+```  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start the application:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run start
+```  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+The application consists of 7 pages:
 
-To learn more about Next.js, take a look at the following resources:
+#### 1. Login/SignUp
+User registration and authentication page.
+- Register a new user with an email.
+- Log in with an email and password.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### 2. Profile
+Personal user page.
+- Contains name, bio, avatar, quest history, and email (visible only on your own profile).
+- View other users' profiles.
+- Change your avatar, name, and bio.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### 3. Create Quest
+Create a new quest.
+- Set an image, title, description, time limit, and difficulty.
+- Add levels with input-based or quiz-type answers.
+- Each level contains an image, question, options, and the correct answer.
 
-## Deploy on Vercel
+#### 4. Explore Quests
+Browse available quests.
+- Display all quests with their image, title, description, rating, location, difficulty, and time limit.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### 5. My Quests
+List of quests created by or related to the user.
+- Display created quests with their image, title, description, rating, location, difficulty, and time limit.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# quest-platform-client
+#### 6. Quest
+Quest interface.
+- Display the title, description, rating, reviews, location, difficulty, and number of levels.
+- Start the quest.
+
+## Team
+
+The frontend team consists of two developers:
+- **Leader:** [Vladyslav Kovalchuk](https://github.com/vladkvlchk)
+- **Developer:** [Bogdan Makarevych](https://github.com/ReGeNss)
