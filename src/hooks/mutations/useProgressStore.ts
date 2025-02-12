@@ -29,7 +29,6 @@ export const useProgressStore = () => {
   const queryClient = useQueryClient();
   const { data: session } = useSession();
   const router = useRouter();
-  const socket = useSocket();
 
   const { data: progress } = useQuery<IProgress | null>({
     queryKey: ["progress"],
@@ -41,11 +40,6 @@ export const useProgressStore = () => {
 
   const setProgress = (progress: IProgress | null) => {
     queryClient.setQueryData(["progress"], progress);
-
-    if (socket && session?.user.id && progress) {
-      alert("socket emit");
-      socket.emit("userProgressUpdate", { userId: session.user.id, progress });
-    }
   };
 
   interface IQuestHistoryItemRequest {

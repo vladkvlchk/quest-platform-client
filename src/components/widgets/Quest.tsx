@@ -15,15 +15,17 @@ import {
 } from "../ui";
 import { QuizLevel } from "./QuizLevel";
 import { InputLevel } from "./InputLevel";
-import { useProgressStore, useQuest } from "@/hooks";
+import { useProgressStore, useQuest, useSocket } from "@/hooks";
 import { Badge } from "../ui/badge";
 import { ClipboardList, Clock, MapPin, Star, StarIcon } from "lucide-react";
 import { FinishProcessButton } from "../atoms";
+import { useEffect } from "react";
 
 export const Quest = ({ questId }: { questId: string }) => {
   const { progress, setProgress } = useProgressStore();
   const { data, isPending, error } = useQuest(questId);
   const quest = data?.quest;
+  const socket = useSocket();
 
   const onClickStartQuest = () => {
     if (typeof quest?._id !== "string") return;
@@ -36,6 +38,12 @@ export const Quest = ({ questId }: { questId: string }) => {
       answers: [],
     });
   };
+
+  useEffect(() => {
+    if (socket && progress) {
+      socket.emit("progressUpdate", progress);
+    }
+  }, [progress]);
 
   if (isPending) return <>loading...</>;
   if (error || !quest) return <>error: {JSON.stringify(error)}</>;

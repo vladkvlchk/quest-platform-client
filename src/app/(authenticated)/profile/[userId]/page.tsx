@@ -7,7 +7,12 @@ import QuestHistoryCard from "@/components/widgets/QuestHistoryCard";
 import { ProfileForm } from "@/components/forms/ProfileForm";
 import ProfileDescription from "@/components/widgets/ProfileDescription";
 import { useProfile } from "@/hooks/mutations/useProfile";
-import { CardDescription, CardHeader, CardTitle } from "@/components";
+import {
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components";
 import { useQuestsHistory } from "@/hooks/mutations/useQuestsHistory";
 import UserProgressListener from "@/components/atoms/UserProgressListener";
 
@@ -67,7 +72,9 @@ export default function ProfilePage() {
           )}
         </div>
       </div>
-      <UserProgressListener />
+      <CardContent className="my-4">
+        <UserProgressListener />
+      </CardContent>
       <CardHeader>
         <CardTitle>Completed quests</CardTitle>
         <CardDescription>
@@ -88,10 +95,10 @@ export default function ProfilePage() {
           )}
         {questsHistoryResponse &&
           questsHistoryResponse.quest_history &&
-          questsHistoryResponse.quest_history.map((quest) => {
+          questsHistoryResponse.quest_history.map((quest, index) => {
             return (
               <div
-                key={quest.quest_id}
+                key={quest.quest_id + index}
                 onClick={() => onClickCard(`${quest.quest_id}`)}
               >
                 <QuestHistoryCard {...quest} />
