@@ -34,6 +34,12 @@ export interface IQuestItemResponse {
   created_by: string;
   location: string;
   levels: (IQuizLevelResponse | IInputLevelResponse)[];
+  avg_rating: number;
+  ratings: {
+    user_id: string;
+    review: string;
+    rating: number;
+  }[]
 }
 
 export type TQuestsResponse = IQuestItemResponse[];
