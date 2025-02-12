@@ -48,10 +48,10 @@ export default function ProfilePage() {
 
   const profileHeight = isEditingState ? "h-[390px]" : "h-[358px]";
   return (
-    <>
-      <CardHeader>
-        <CardTitle>My profile</CardTitle>
-      </CardHeader>
+  <>
+    <CardHeader>
+      <CardTitle>{isOwner ? "My profile" : "Profile"}</CardTitle>
+    </CardHeader>
       <div
         className={`${profileHeight} shadow-[10px_13px_7.5px_rgba(0,0,0,0.25)] mx-5 flex flex-row rounded-[40px] border px-9`}
       >
